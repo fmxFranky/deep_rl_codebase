@@ -280,7 +280,11 @@ class RainbowRunner:
     self._run_train_phase()
     if self._schedule == 'continuous_train_and_eval':
       print(f"Start evaluation {'.' * 50}")
-      self._run_eval_phase(self._eval_unit, self._eval_episodes_per_iteration)
+      if self._eval_unit == 'step':
+        threshold = self._eval_steps_per_iteration
+      else:
+        threshold = self._eval_episodes_per_iteration
+      self._run_eval_phase(self._eval_unit, threshold)
     if self._checkpointer:
       self._checkpointer.save()
 
